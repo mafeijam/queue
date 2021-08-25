@@ -14,7 +14,6 @@ q-layout(view="hHh lpr fFf")
           .text-h6.q-mb-md.text-pink 你已經獲取票號
           .q-gutter-md
             q-btn(label="查看票號" @click="ticketOpen(ticket.link)" color="indigo" size="lg" icon="confirmation_number")
-            q-btn(label="取消排隊" color="pink" size="lg" icon="close")
 
         q-card-section.q-pa-md(v-else)
           .row.q-col-gutter-md.text-subtitle1
