@@ -7,7 +7,7 @@ use App\Models\Shop;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
-Route::inertia('/', 'Index');
+Route::inertia('/', 'Index')->name('home');
 
 Route::post('create_shop', [ShopController::class, 'store']);
 Route::get('queue/{uuid}', [ShopController::class, 'frontend'])->name('queue');
@@ -26,3 +26,23 @@ Route::get('mail', function () {
     $passcode = strtolower(Str::random(6));
     return new ShopCreated($shop, $passcode);
 });
+
+Route::get('stripe', function () {
+    \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+
+    $session = \Stripe\Checkout\Session::create([
+        'payment_method_types' => ['card'],
+        'line_items' => [[
+            'price' => 'price_1JSLMICfUP56S8Kwv0S1Nwoy',
+            'quantity' => 1,
+        ]],
+        'mode' => 'payment',
+        'client_reference_id' => 'q.jamwong.me',
+        'success_url' => route('stripe_success'),
+        'cancel_url' => route('home'),
+    ]);
+
+    return redirect($session->url);
+})->name('coffee');
+
+Route::inertia('stripe/success', 'Success')->name('stripe_success');

@@ -48,6 +48,10 @@ q-layout(view="hHh lpr fFf")
         .flex.items-center.justify-center.q-pa-md
           a(href="https://github.com/mafeijam")
             img(src="https://q.jamwong.me/github.svg" alt="logo" style="width: 30px;" target="_blank")
+
+        .flex.items-center.justify-center.q-pb-md
+          .text-body2.text-grey-7.q-mr-md 如果閣下對本服務感到滿意，可以考慮請我飲返一杯咖啡
+          q-btn(label="buy me a coffee" color="blue-grey-8" size="xs" icon="coffee" @click="buy")
 </template>
 
 <script setup>
@@ -88,4 +92,6 @@ const createShop = () => Inertia.post('/create_shop', form, {
   onFinish: () => loading.value = false,
   onError: error => errorMsg.value = error
 })
+
+const buy = () => window.location.href = 'https://q.jamwong.me/stripe'
 </script>
