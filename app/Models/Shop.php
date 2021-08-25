@@ -39,4 +39,14 @@ class Shop extends Model
 
         return [$qr, $short];
     }
+
+    public function getFrontendLink()
+    {
+        return route('queue', ['uuid' => $this->uuid]);
+    }
+
+    public function getBackendLink()
+    {
+        return route('shop', ['uuid' => encrypt($this->uuid)]);
+    }
 }

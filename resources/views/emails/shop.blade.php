@@ -5,11 +5,11 @@
 你的後台密碼 **{{ $passcode }}**
 @endcomponent
 
-@component('mail::button', ['url' => route('shop', ['uuid' => encrypt($shop->uuid)]), 'color' => 'primary'])
+@component('mail::button', ['url' => $shop->getBackendLink(), 'color' => 'primary'])
 點擊登入後台
 @endcomponent
 
-@component('mail::button', ['url' => route('queue', ['uuid' => $shop->uuid]), 'color' => 'green'])
+@component('mail::button', ['url' => $shop->getFrontendLink(), 'color' => 'green'])
 點擊進入票號頁面
 @endcomponent
 
@@ -17,9 +17,9 @@
 
 (後台頁面)
 
-**{{ wordwrap(route('shop', ['uuid' => encrypt($shop->uuid)]), 45, "\n", true) }}**
+**{{ wordwrap($shop->getBackendLink(), 45, "\n", true) }}**
 
 (輪候頁面)
 
-**{{ wordwrap(route('queue', ['uuid' => $shop->uuid]), 45, "\n", true) }}**
+**{{ wordwrap($shop->getFrontendLink(), 45, "\n", true) }}**
 @endcomponent

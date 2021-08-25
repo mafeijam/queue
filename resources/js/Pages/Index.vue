@@ -15,7 +15,7 @@ q-layout(view="hHh lpr fFf")
                 .q-gutter-xs.text-grey-8
                   .text-body2 商戶只需要有一部平板電腦，客戶只需要有一部智能手機
                   .text-body2 無需安裝任何APP，無需註冊任何帳戶，只需要一個瀏覽器
-                  .text-body2 隨時隨地都可以睇到最新等位情況！
+                  .text-body2 實時更新，隨時隨地都可以睇到最新等位情況！
 
               .text-h6.text-grey-7 建立排隊服務
               q-input(

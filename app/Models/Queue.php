@@ -34,6 +34,14 @@ class Queue extends Model
             ->first()->ticket_number ?? 0) + 1;
     }
 
+    public static function getLastAvailable($request)
+    {
+        return static::where('shop_id', $request->shop)
+            ->where('ticket_type', $request->type)
+            ->where('available', false)
+            ->orderBy('ticket_number')->first();
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
