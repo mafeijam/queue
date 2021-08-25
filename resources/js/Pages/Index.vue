@@ -1,6 +1,10 @@
 <template lang="pug">
 q-layout(view="hHh lpr fFf")
   q-page-container.bg-grey-1
+    img.fixed.rotate-180(
+      src="https://q.jamwong.me/waves.svg"
+      style="bottom: 0; height: 50vh"
+    )
     q-page.flex.items-center(style="max-width: 800px; margin: auto")
       q-card.shadow-1.full-width(:flat="$q.platform.is.mobile")
         q-card-section.q-pa-lg
@@ -44,14 +48,15 @@ q-layout(view="hHh lpr fFf")
               .text-right
                 q-btn(label="建立" color="primary" size="lg" icon="check" type="submit" :loading="loading")
 
-        .flex.items-center.justify-center.text-caption.text-grey-6 Made with <img src="https://q.jamwong.me/heart.png" style="width: 20px;" class="q-mx-xs" /> by Jam Wong
-        .flex.items-center.justify-center.q-pa-md
-          a(href="https://github.com/mafeijam")
-            img(src="https://q.jamwong.me/github.svg" alt="logo" style="width: 30px;" target="_blank")
+        .flex.items-center.justify-center.text-caption.text-grey-6.q-mb-md Made with <img src="https://q.jamwong.me/heart.png" style="width: 20px;" class="q-mx-xs" /> by Jam Wong
+        .flex.items-center.justify-center
+          a(href="https://github.com/mafeijam/queue" target="_blank")
+            img(src="https://q.jamwong.me/icons8-github.gif" alt="logo" style="width: 35px;")
+            q-tooltip(:offset="[0, 5]") 程式碼
 
-        .flex.items-center.justify-center.q-pb-md
-          .text-body2.text-grey-7.q-mr-md 如果閣下對本服務感到滿意，可以考慮請我飲返一杯咖啡
-          q-btn(label="buy me a coffee" color="blue-grey-8" size="xs" icon="coffee" @click="buy")
+        .flex.column.items-center.justify-center.q-my-md
+          .text-body2.text-grey-7.q-mb-sm 如果閣下對本服務感到滿意，可以考慮請我飲返一杯咖啡
+          q-btn(label="buy me a coffee" color="blue-grey-8" size="sm" icon="coffee" @click="buy")
 </template>
 
 <script setup>

@@ -7,6 +7,7 @@ use App\Events\QueueUpdated;
 use App\Mail\ShopCreated;
 use App\Models\Queue;
 use App\Models\Shop;
+use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
