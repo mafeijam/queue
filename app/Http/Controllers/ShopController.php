@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\QueueCreated;
 use App\Events\QueueReset;
 use App\Events\QueueUpdated;
 use App\Mail\ShopCreated;
 use App\Models\Queue;
 use App\Models\Shop;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class ShopController extends Controller
 {
@@ -51,7 +51,7 @@ class ShopController extends Controller
             return back()->with('message', '系統發生錯誤，請稍後再嘗試！');
         }
 
-        Log::channel('debug')->info('shop created', [$passcode, $shop]);
+        Log::channel('debug')->info('shop created', [$passcode, $shop->name, $shop->getBackendLink()]);
 
         return redirect()->route('queue', [
             'uuid' => $uuid
@@ -69,7 +69,14 @@ class ShopController extends Controller
 
     public function backend(Request $request, $uuid)
     {
-        $shop = Shop::with('queues')->where('uuid', decrypt($uuid))->firstOrFail();
+        try {
+            $uuid = decrypt($uuid);
+        } catch (DecryptException $e) {
+            Log::channel('debug', 'decrypt backend error');
+            return redirect('/');
+        }
+
+        $shop = Shop::with('queues')->where('uuid', $uuid)->firstOrFail();
 
         if ($this->notLoggedIn($request, $shop->id)) {
             return inertia('Passcode', compact('shop'));

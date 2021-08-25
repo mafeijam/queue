@@ -17,13 +17,7 @@ class Queue extends Model
 
     public static function toEvent($shop)
     {
-        return static::where('shop_id', $shop)->get()
-            ->groupBy('ticket_type')
-            ->map(fn ($queues) => [
-                'available' => $queues->where('available', 1)->max('ticket_number'),
-                'waiting' => $queues->max('ticket_number'),
-                'details' => $queues->sortBy('ticket_number'),
-            ]);
+        return static::where('shop_id', $shop)->get()->convertQueuesCollection();
     }
 
     public static function getLatest($request)
@@ -39,6 +33,7 @@ class Queue extends Model
         return static::where('shop_id', $request->shop)
             ->where('ticket_type', $request->type)
             ->where('available', false)
+            ->whereNull('cancelled_at')
             ->orderBy('ticket_number')->first();
     }
 

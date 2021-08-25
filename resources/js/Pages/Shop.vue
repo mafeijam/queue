@@ -4,20 +4,21 @@ q-dialog(v-model="show" maximized transition-show="jump-down" transition-hide="j
     q-bar.bg-blue-8.text-white.fixed-top.z-top
       q-space
       q-btn(dense flat icon="close" v-close-popup color="white")
-    q-card-section(style="max-width: 600px; margin: auto")
+    q-card-section(style="max-width: 700px; margin: auto")
       .shadow-1
-        q-markup-table.q-mt-xl.bg-grey-1(flat)
+        q-markup-table.q-mt-xl(flat)
           thead
             tr.text-grey-8
-              th.text-left(width="20%") 票號
-              th.text-right(width="40%") 取票時間
-              th.text-right(width="40%") 入坐時間
+              th.text-left(width="10%") 票號
+              th.text-right(width="30%") 取票時間
+              th.text-right(width="30%") 入坐時間
+              th.text-right(width="30%") 取消時間
           tbody
-            tr(v-for="s in selected")
+            tr(v-for="s in selected" :class="s.cancelled_at ? 'bg-purple-1' : ''")
               td.text-left {{ s.ticket_type }}{{ s.ticket_number }}
               td.text-right {{ s.created_at }}
               td.text-right {{ s.available ? s.updated_at :　'-' }}
-
+              td.text-right {{ s.cancelled_at ?? '-' }}
 
 q-layout(view="hHh lpr fFf")
   q-page-container.bg-grey-1
@@ -40,100 +41,31 @@ q-layout(view="hHh lpr fFf")
 
         q-card-section.q-pt-none.q-pb-lg.q-px-lg
           .row.q-col-gutter-lg.text-subtitle1
-            .col-3.text-center
-              .q-pa-sm.bg-red-1
-                .text-right
-                  q-btn(
-                    label="查閱明細" flat icon="list" dense color="red-8"
-                    @click="viewMore('A')" :disable="noDetails(queueData, 'A')"
-                  )
-              .q-pa-lg.bg-red-1
-                .text-h5.text-weight-bold.text-red-8.q-mb-lg A 1 ~ 2人
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新入座票號
-                .text-h3.text-grey-9 {{ showTicketAvailable(queueData, 'A') }}
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新獲取票號
-                .text-h3.text-grey-9 {{ showTicketWaiting(queueData, 'A') }}
-                q-btn.full-width.q-mt-xl(
-                  label="下一個" :color="noNext(queueData, 'A') ? 'grey-5' : 'red'"
-                  size="lg"
-                  @click="callNext('A')"
-                  :disable="noNext(queueData, 'A')"
-                )
+            TicketNextCard(
+              color="red" title="A 1 ~ 2人" type="A" :queueData="queueData"
+              :shop="shop" @selected="viewMore" @called="queueEvent = null"
+            )
+            TicketNextCard(
+              color="green" title="B 3 ~ 4人" type="B" :queueData="queueData"
+              :shop="shop" @selected="viewMore" @called="queueEvent = null"
+            )
 
-            .col-3.text-center
-              .q-pa-sm.bg-green-1
-                  .text-right
-                    q-btn(
-                      label="查閱明細" flat icon="list" dense color="green-8"
-                      @click="viewMore('B')" :disable="noDetails(queueData, 'B')"
-                    )
-              .q-pa-lg.bg-green-1
-                .text-h5.text-weight-bold.text-green-8.q-mb-lg B 3 ~ 4人
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新入座票號
-                .text-h3.text-grey-9 {{ showTicketAvailable(queueData, 'B') }}
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新獲取票號
-                .text-h3.text-grey-9 {{ showTicketWaiting(queueData, 'B') }}
-                q-btn.full-width.q-mt-xl(
-                  label="下一個" :color="noNext(queueData, 'B') ? 'grey-5' : 'green'"
-                  size="lg"
-                  @click="callNext('B')"
-                  :disable="noNext(queueData, 'B')"
-                )
+            TicketNextCard(
+              color="blue" title="C 5 ~ 6人" type="C" :queueData="queueData"
+              :shop="shop" @selected="viewMore" @called="queueEvent = null"
+            )
 
-            .col-3.text-center
-              .q-pa-sm.bg-blue-1
-                  .text-right
-                    q-btn(
-                      label="查閱明細" flat icon="list" dense color="blue-8"
-                      @click="viewMore('C')" :disable="noDetails(queueData, 'C')"
-                    )
-              .q-pa-lg.bg-blue-1
-                .text-h5.text-weight-bold.text-blue-8.q-mb-lg C 5 ~ 6人
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新入座票號
-                .text-h3.text-grey-9 {{ showTicketAvailable(queueData, 'C') }}
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新獲取票號
-                .text-h3.text-grey-9 {{ showTicketWaiting(queueData, 'C') }}
-                q-btn.full-width.q-mt-xl(
-                  label="下一個" :color="noNext(queueData, 'C') ? 'grey-5' : 'blue'"
-                  size="lg"
-                  @click="callNext('C')"
-                  :disable="noNext(queueData, 'C')"
-                )
-
-            .col-3.text-center
-              .q-pa-sm.bg-yellow-1
-                .text-right
-                  q-btn(
-                    label="查閱明細" flat icon="list" dense color="yellow-8"
-                    @click="viewMore('D')" :disable="noDetails(queueData, 'D')"
-                  )
-              .q-pa-lg.bg-yellow-1
-                .text-h5.text-weight-bold.text-yellow-8.q-mb-lg D 7人或以上
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新入座票號
-                .text-h3.text-grey-9 {{ showTicketAvailable(queueData, 'D') }}
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新獲取票號
-                .text-h3.text-grey-9 {{ showTicketWaiting(queueData, 'D') }}
-                q-btn.full-width.q-mt-xl(
-                  label="下一個" :color="noNext(queueData, 'D') ? 'grey-5' : 'yellow'"
-                  size="lg"
-                  @click="callNext('D')"
-                  :disable="noNext(queueData, 'D')"
-                )
+            TicketNextCard(
+              color="yellow" title="D 7人或以上" type="D" :queueData="queueData"
+              :shop="shop" @selected="viewMore" @called="queueEvent = null"
+            )
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
-import { showTicketAvailable, showTicketWaiting, showDetails, noDetails, noNext } from '@/useTicket'
 import { Inertia } from '@inertiajs/inertia'
 import { useQuasar } from 'quasar'
+import TicketNextCard from '@/Components/TicketNextCard.vue'
 
 const props = defineProps({
   shop: Object,
@@ -149,15 +81,8 @@ const queueData = computed(() => queueEvent.value === null ? props.queues : queu
 const audio = new Audio('https://q.jamwong.me/mixkit-happy-bells-notification-937.wav')
 
 const onEvent = evt => {
-  audio.play()
   queueEvent.value = evt.queues
-}
-
-const callNext = type => {
-  Inertia.post('/call_next', { type, shop: props.shop.id, uuid: props.shop.uuid }, {
-    onSuccess: () => queueEvent.value = null,
-    onError: (error) => console.log(error)
-  })
+  audio.play()
 }
 
 const $q = useQuasar()
@@ -187,12 +112,13 @@ const reset = () => {
   })
 }
 
-const viewMore = type => {
-  selected.value = showDetails(queueData.value, type)
+const viewMore = evt => {
+  selected.value = evt
   show.value = true
 }
 
 window.Echo.channel(`queue.${props.shop.uuid}`)
   .listen('QueueCreated', onEvent)
+  .listen('QueueCancelled', evt => queueEvent.value = evt.queues)
 
 </script>

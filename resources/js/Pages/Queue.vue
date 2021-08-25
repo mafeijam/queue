@@ -28,51 +28,16 @@ q-layout(view="hHh lpr fFf")
 
         q-card-section.q-pt-none.q-pb-lg.q-px-lg
           .row.q-col-gutter-lg.text-subtitle1
-            .col-3.text-center
-              .q-pa-lg.bg-red-1
-                .text-h5.text-weight-bold.text-red-8.q-mb-lg A 1 ~ 2人
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新入座票號
-                .text-h3.text-grey-9 {{ showTicketAvailable(queueData, 'A') }}
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新獲取票號
-                .text-h3.text-grey-9 {{ showTicketWaiting(queueData, 'A') }}
-
-            .col-3.text-center
-              .q-pa-lg.bg-green-1
-                .text-h5.text-weight-bold.text-green-8.q-mb-lg B 3 ~ 4人
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新入座票號
-                .text-h3.text-grey-9 {{ showTicketAvailable(queueData, 'B') }}
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新獲取票號
-                .text-h3.text-grey-9 {{ showTicketWaiting(queueData, 'B') }}
-
-            .col-3.text-center
-              .q-pa-lg.bg-blue-1
-                .text-h5.text-weight-bold.text-blue-8.q-mb-lg C 5 ~ 6人
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新入座票號
-                .text-h3.text-grey-9 {{ showTicketAvailable(queueData, 'C') }}
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新獲取票號
-                .text-h3.text-grey-9 {{ showTicketWaiting(queueData, 'C') }}
-
-            .col-3.text-center
-              .q-pa-lg.bg-yellow-1
-                .text-h5.text-weight-bold.text-yellow-8.q-mb-lg D 7人或以上
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新入座票號
-                .text-h3.text-grey-9 {{ showTicketAvailable(queueData, 'D') }}
-                q-separator(spaced="lg")
-                .text-h6.text-grey-7 最新獲取票號
-                .text-h3.text-grey-9 {{ showTicketWaiting(queueData, 'D') }}
+            TicketCard(color="red" title="A 1 ~ 2人" type="A" :queueData="queueData")
+            TicketCard(color="green" title="B 3 ~ 4人" type="B" :queueData="queueData")
+            TicketCard(color="blue" title="C 5 ~ 6人" type="C" :queueData="queueData")
+            TicketCard(color="yellow" title="D 7人或以上" type="D" :queueData="queueData")
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
-import { showTicketAvailable, showTicketWaiting } from '@/useTicket'
 import { Inertia } from '@inertiajs/inertia'
+import TicketCard from '@/Components/TicketCard.vue'
 
 const props = defineProps({
   shop: Object,
@@ -104,6 +69,7 @@ const onEvent = evt => {
 
 window.Echo.channel(`queue.${props.shop.uuid}`)
   .listen('QueueCreated', evt => queueEvent.value = evt.queues)
+  .listen('QueueCancelled', evt => queueEvent.value = evt.queues)
   .listen('QueueUpdated', onEvent)
   .listen('QueueReset', () => {
     queueEvent.value = null

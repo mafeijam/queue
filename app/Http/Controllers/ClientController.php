@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Events\QueueCreated;
+use App\Events\QueueCancelled;
 use App\Models\Queue;
 use App\Models\Shop;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -68,9 +70,31 @@ class ClientController extends Controller
 
     public function show($uuid)
     {
-        $queue = Queue::with('shop.queues')->where('uuid', decrypt($uuid))->firstOrFail();
+        try {
+            $uuid = decrypt($uuid);
+        } catch (DecryptException $e) {
+            Log::channel('debug', 'decrypt ticket error');
+            return redirect('/');
+        }
+
+        $queue = Queue::with('shop.queues')->where('uuid', $uuid)->firstOrFail();
         $queues = $queue->shop->convertQueues();
         return inertia('Ticket', compact('queue', 'queues'));
+    }
+
+    public function cancel($uuid)
+    {
+        $queue = Queue::with('shop')->where('uuid', $uuid)->firstOrFail();
+
+        $queue->update([
+            'cancelled_at' => now()
+        ]);
+
+        $queues = Queue::toEvent($queue->shop->id);
+
+        broadcast(new QueueCancelled($queue->shop->uuid, $queues));
+
+        return back();
     }
 
     protected function checkTaken($request, $uuid = null)
@@ -79,7 +103,7 @@ class ClientController extends Controller
             ->where('shop', $uuid ?? $request->uuid)
             ->sortByDesc('date')->first();
 
-        $queue = $taken ? Queue::where('uuid', $taken['uuid'])->exists() : false;
+        $queue = $taken ? Queue::where('uuid', $taken['uuid'])->whereNull('cancelled_at')->exists() : false;
 
         return [$taken, $queue];
     }

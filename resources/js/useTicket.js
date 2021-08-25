@@ -31,7 +31,7 @@ export const noNext = (queues, ticketType) => {
     return true
   }
 
-  return queues[ticketType].waiting === queues[ticketType].available
+  return queues[ticketType].waiting === queues[ticketType].available || queues[ticketType].diff === 0
 }
 
 export const isMine = (queues, ticketType, ticketNumber) => {
@@ -40,6 +40,14 @@ export const isMine = (queues, ticketType, ticketNumber) => {
   }
 
   return queues[ticketType].available === ticketNumber
+}
+
+export const isBefore = (queues, ticketType, ticketNumber) => {
+  if (queues[ticketType] === undefined || queues[ticketType]?.available === null) {
+    return true
+  }
+
+  return queues[ticketType].available < ticketNumber
 }
 
 export const lastCallTime = (queues, ticketType) => {

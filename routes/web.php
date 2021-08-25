@@ -18,6 +18,7 @@ Route::delete('reset/{uuid}', [ShopController::class, 'reset']);
 
 Route::get('c/{link}', [ClientController::class, 'index'])->name('client');
 Route::post('get_ticket', [ClientController::class, 'store']);
+Route::delete('cancel_ticket/{uuid}', [ClientController::class, 'cancel']);
 Route::get('ticket/{uuid}', [ClientController::class, 'show'])->name('ticket');
 
 Route::get('mail', function () {

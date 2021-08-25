@@ -18,11 +18,7 @@ class Shop extends Model
 
     public function convertQueues()
     {
-        return $this->queues->groupBy('ticket_type')->map(fn ($queues) => [
-            'available' => $queues->where('available', 1)->max('ticket_number'),
-            'waiting' => $queues->max('ticket_number'),
-            'details' => $queues->sortBy('ticket_number'),
-        ]);
+        return $this->queues->convertQueuesCollection();
     }
 
     public function getQRCodeAndLink()

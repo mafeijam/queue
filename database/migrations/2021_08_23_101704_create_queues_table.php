@@ -20,6 +20,7 @@ class CreateQueuesTable extends Migration
             $table->string('ticket_type', 1);
             $table->smallInteger('ticket_number');
             $table->boolean('available')->default(false);
+            $table->timestamp('cancelled_at')->nullable();
             $table->timestamps();
         });
     }

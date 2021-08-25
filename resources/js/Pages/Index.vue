@@ -44,7 +44,10 @@ q-layout(view="hHh lpr fFf")
               .text-right
                 q-btn(label="建立" color="primary" size="lg" icon="check" type="submit" :loading="loading")
 
-        .text-caption.flex.items-center.justify-center.text-grey-6.q-pa-md Made with <img src="https://q.jamwong.me/heart.png" style="width: 20px;" class="q-mx-xs" /> by Jam Wong
+        .flex.items-center.justify-center.text-caption.text-grey-6 Made with <img src="https://q.jamwong.me/heart.png" style="width: 20px;" class="q-mx-xs" /> by Jam Wong
+        .flex.items-center.justify-center.q-pa-md
+          a(href="https://github.com/mafeijam")
+            img(src="https://q.jamwong.me/github.svg" alt="logo" style="width: 30px;" target="_blank")
 </template>
 
 <script setup>
