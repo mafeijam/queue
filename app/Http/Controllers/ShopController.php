@@ -94,7 +94,7 @@ class ShopController extends Controller
         $request->validate([
             'passcode' => 'required',
         ], [
-            'passcode.required' => '請輸入軛密碼'
+            'passcode.required' => '請輸入密碼'
         ]);
 
         if (Hash::check($request->passcode, $shop->passcode)) {

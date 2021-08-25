@@ -48,7 +48,7 @@ q-layout(view="hHh lpr fFf")
               .text-right
                 q-btn(label="建立" color="primary" size="lg" icon="check" type="submit" :loading="loading")
 
-        .flex.items-center.justify-center.text-caption.text-grey-6.q-mb-md Made with <img src="https://q.jamwong.me/heart.png" style="width: 20px;" class="q-mx-xs" /> by Jam Wong
+        .flex.items-center.justify-center.text-caption.text-grey-6.q-mb-md Made with <img src="https://q.jamwong.me/icons8-heart.gif" style="width: 20px;" class="q-mx-xs" /> by Jam Wong
         .flex.items-center.justify-center
           a(href="https://github.com/mafeijam/queue" target="_blank")
             img(src="https://q.jamwong.me/icons8-github.gif" alt="logo" style="width: 35px;")

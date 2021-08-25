@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 Route::inertia('/', 'Index')->name('home');
 
-Route::post('create_shop', [ShopController::class, 'store']);
+Route::post('create_shop', [ShopController::class, 'store'])->middleware('throttle:10,1');
 Route::get('queue/{uuid}', [ShopController::class, 'frontend'])->name('queue');
 Route::get('shop/{uuid}', [ShopController::class, 'backend'])->name('shop');
 Route::post('passcode', [ShopController::class, 'login']);
