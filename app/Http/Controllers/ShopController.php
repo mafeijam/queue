@@ -97,6 +97,8 @@ class ShopController extends Controller
             'passcode.required' => '請輸入密碼'
         ]);
 
+        Log::channel('debug')->info('login', [$shop]);
+
         if (Hash::check($request->passcode, $shop->passcode)) {
             $request->session()->put('passcode.'.$shop->id, true);
             return back();

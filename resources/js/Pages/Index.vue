@@ -49,10 +49,14 @@ q-layout(view="hHh lpr fFf")
                 q-btn(label="建立" color="primary" size="lg" icon="check" type="submit" :loading="loading")
 
         .flex.items-center.justify-center.text-caption.text-grey-6.q-mb-md Made with <img src="https://q.jamwong.me/icons8-heart.gif" style="width: 20px;" class="q-mx-xs" /> by Jam Wong
-        .flex.items-center.justify-center
+        .flex.items-center.justify-center.q-gutter-md
           a(href="https://github.com/mafeijam/queue" target="_blank")
             img(src="https://q.jamwong.me/icons8-github.gif" alt="logo" style="width: 35px;")
             q-tooltip(:offset="[0, 5]") 程式碼
+          a(href="https://t.me/mafeijam" target="_blank")
+            img(src="https://q.jamwong.me/icons8-telegram-app.gif" alt="logo" style="width: 35px;")
+            q-tooltip(:offset="[0, 5]") 找我聊聊
+
 
         .flex.column.items-center.justify-center.q-my-md
           .text-body2.text-grey-7.q-mb-sm 如果閣下對本服務感到滿意，可以考慮請我飲返一杯咖啡
