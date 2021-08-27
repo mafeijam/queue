@@ -25,7 +25,7 @@ q-layout(view="hHh lpr fFf")
     q-page.flex.items-center(:padding="$q.platform.is.desktop" style="max-width: 1200px; margin: auto")
       q-card.shadow-1.full-width(:flat="$q.platform.is.mobile")
         q-card-section.q-pa-lg
-          .q-gutter-lg
+          .q-gutter-md
             .flex.justify-between
               .text-h4.text-teal 電子排隊系統
               q-btn(

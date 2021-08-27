@@ -27,7 +27,7 @@ class Shop extends Model
 
         $options = new QROptions([
             'outputType' => QRCode::OUTPUT_IMAGE_PNG,
-            'quietzoneSize' => 2,
+            'quietzoneSize' => 0,
             'scale' => 5,
         ]);
 

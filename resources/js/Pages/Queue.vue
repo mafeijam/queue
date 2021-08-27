@@ -4,27 +4,27 @@ q-layout(view="hHh lpr fFf")
     q-page.flex.items-center(:padding="$q.platform.is.desktop" style="max-width: 1200px; margin: auto")
       q-card.shadow-1.full-width(:flat="$q.platform.is.mobile")
         q-card-section.q-pa-lg
-          .q-gutter-md
-            .flex.justify-between
-              .text-h4.text-teal 電子排隊系統
-              q-btn(
-                @click="$q.fullscreen.toggle()"
-                :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
-                round flat color="blue" v-if="$q.platform.is.desktop"
-              )
-            .flex
-              .text-h6.text-grey-7.q-mr-lg 店舖名稱
-              .text-h6.text-indigo-6.text-weight-bold {{ shop.name }}
-            .row
-              .col-6.flex.justify-center.items-center
-                .q-px-xl.q-py-lg.bg-orange-1.text-center.self-start
-                  .text-h5.text-grey-7 最新叫號
-                  .text-h1.text-orange-8.text-weight-bold {{ lastTicketDisplay }}
+          .flex.justify-between.q-mb-md
+            .text-h4.text-teal 電子排隊系統
+            q-btn(
+              @click="$q.fullscreen.toggle()"
+              :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
+              round flat color="blue" v-if="$q.platform.is.desktop"
+            )
+          .flex.q-mb-md
+            .text-h6.text-grey-7.q-mr-lg 店舖名稱
+            .text-h6.text-indigo-6.text-weight-bold {{ shop.name }}
 
-              .col-6.flex.column.items-center
-                img(:src="qr")
-                .text-h6.text-pink 請以手機掃瞄QR CODE 取票
-                .text-body2.text-grey-7 或手動輸入網址 <span class="text-weight-bold text-grey-8">{{ short }}</span>
+          .row.q-col-gutter-lg
+            .col-6
+              .full-height.bg-orange-1.flex.column.justify-center.items-center
+                .text-h5.text-grey-7.q-mb-md 最新叫號
+                .text-h1.text-orange-8.text-weight-bold {{ lastTicketDisplay }}
+
+            .col-6.flex.column.items-center
+              img.q-mb-md(:src="qr")
+              .text-h6.text-pink 請以手機掃瞄QR CODE 取票
+              .text-body2.text-grey-7 或手動輸入網址 <span class="text-weight-bold text-grey-8">{{ short }}</span>
 
         q-card-section.q-pt-none.q-pb-lg.q-px-lg
           .row.q-col-gutter-lg.text-subtitle1

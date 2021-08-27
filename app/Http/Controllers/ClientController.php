@@ -73,7 +73,7 @@ class ClientController extends Controller
         try {
             $uuid = decrypt($uuid);
         } catch (DecryptException $e) {
-            Log::channel('debug', 'decrypt ticket error');
+            Log::channel('debug')->info('decrypt ticket error');
             return redirect('/');
         }
 

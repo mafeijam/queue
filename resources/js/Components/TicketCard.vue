@@ -11,10 +11,10 @@
     .flex.justify-between.q-mt-lg.text-grey-7
       .flex.items-baseline
         .text-caption.q-mr-md 等候中
-        .text-body1 {{ queueData[type]?.diff ?? '0' }}
+        .text-body1.text-weight-bold {{ queueData[type]?.diff ?? '0' }}
       .flex.items-baseline
         .text-caption.q-mr-md 已取消
-        .text-body1 {{ queueData[type]?.cancelled ?? '0' }}
+        .text-body1.text-weight-bold {{ queueData[type]?.cancelled ?? '0' }}
 </template>
 
 <script setup>
