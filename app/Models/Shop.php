@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use chillerlan\QRCode\QROptions;
 use chillerlan\QRCode\QRCode;
+use Illuminate\Support\Facades\URL;
 
 class Shop extends Model
 {
@@ -43,6 +44,6 @@ class Shop extends Model
 
     public function getBackendLink()
     {
-        return route('shop', ['uuid' => encrypt($this->uuid)]);
+        return URL::signedRoute('shop', ['uuid' => $this->uuid]);
     }
 }

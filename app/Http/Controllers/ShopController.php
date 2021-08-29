@@ -70,10 +70,7 @@ class ShopController extends Controller
 
     public function backend(Request $request, $uuid)
     {
-        try {
-            $uuid = decrypt($uuid);
-        } catch (DecryptException $e) {
-            Log::channel('debug', 'decrypt backend error');
+        if ($request->hasValidSignature() === false) {
             return redirect('/');
         }
 

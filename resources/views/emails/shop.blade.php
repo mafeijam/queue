@@ -13,13 +13,13 @@
 點擊進入票號頁面
 @endcomponent
 
-### 如果點擊按鈕無法進入，可手動COPY 以下連結
+***如果點擊按鈕無法進入，可手動 COPY 以下連結***
 
-(後台頁面)
+**後台頁面**
 
-**{{ wordwrap($shop->getBackendLink(), 45, "\n", true) }}**
+<span style="word-break: break-all;">{{ $shop->getBackendLink() }}</span>
 
-(輪候頁面)
+**票號頁面**
 
-**{{ wordwrap($shop->getFrontendLink(), 45, "\n", true) }}**
+<span style="word-break: break-all;">{{ $shop->getFrontendLink() }}</span>
 @endcomponent

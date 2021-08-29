@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\QueueCreated;
 use App\Events\QueueCancelled;
+use App\Events\QueueCreated;
 use App\Models\Queue;
 use App\Models\Shop;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class ClientController extends Controller
